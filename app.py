@@ -15,8 +15,31 @@ def study_image():
     # example we covered in the slides! 
 
     # YOUR CODE HERE!
+    import requests, json
+
+    headers = {'Authorization': 'Key f2f339a3cc374420a221fa27e58a3202'}
+    api_url = "https://api.clarifai.com/v2/models/aaa03c23b3724a16a56b629203edc62c/outputs"
+
+    data ={"inputs": [
+      {
+        "data": {
+          "image": {
+            "url": image_url
+          }
+        }
+      }
+    ]}
+
+
+    response = requests.post(api_url, headers=headers, data=json.dumps(data))
+    parsed_content = json.loads(response.content)
+    ob = parsed_content['name']
+
+
     
-    return render_template('home.html', results="No results yet :(")
+    
+
+    return render_template('home.html', results=parsed_content)
 
 if __name__ == '__main__':
     app.run(debug=True)
